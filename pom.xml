@@ -16,6 +16,18 @@
         <junit.jupiter.version>5.11.0-M2</junit.jupiter.version>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <!-- If specified here, the MojoHaus Versions Maven Plugin can be used to update the version of the dependency.
+                     https://www.mojohaus.org/versions/versions-maven-plugin/use-latest-versions-mojo.html -->
+                <groupId>com.google.errorprone</groupId>
+                <artifactId>error_prone_core</artifactId>
+                <version>2.28.0</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -110,6 +122,32 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <!-- add Error Prone checks to Java compilation, see https://errorprone.info/docs/installation -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>21</source>
+                    <target>21</target>
+                    <!-- The default configuration for the build process is to continue regardless of
+                         compilation warnings. However, to ensure that no potential bugs are missed, it is
+                         recommended that the build configuration be set to fail on compilation warnings: -->
+                    <failOnWarning>false</failOnWarning>
+                    <compilerArgs>
+                        <arg>-XDcompilePolicy=simple</arg>
+                        <arg>-Xplugin:ErrorProne</arg>
+                    </compilerArgs>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>com.google.errorprone</groupId>
+                            <artifactId>error_prone_core</artifactId>
+                            <version>2.28.0</version>
+                            <!-- If not specified here, the version is taken from dependency management (see above).
+                                 https://maven.apache.org/plugins/maven-compiler-plugin/compile-mojo.html#annotationProcessorPaths -->
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
         </plugins>
         <pluginManagement>
             <plugins>
@@ -117,11 +155,6 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-clean-plugin</artifactId>
                     <version>3.3.2</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.13.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -148,6 +181,10 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-deploy-plugin</artifactId>
                     <version>3.1.2</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.13.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
