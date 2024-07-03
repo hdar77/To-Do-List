@@ -65,51 +65,101 @@
                 </executions>
             </plugin>
             <plugin>
+                <!-- generate Checkstyle reports, see https://maven.apache.org/plugins/maven-checkstyle-plugin/ -->
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-clean-plugin</artifactId>
-                <version>3.3.2</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M7</version>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.4.0</version>
                 <configuration>
-                    <includes>
-                        <include>**/*Test.java</include>
-                    </includes>
-                    <testSourceDirectory>src/test/java</testSourceDirectory>
+
+                    <!-- Use the Checkstyle configuration for the Google Java Style.
+                         https://maven.apache.org/plugins/maven-checkstyle-plugin/check-mojo.html#configLocation -->
+                    <configLocation>google_checks.xml</configLocation>
+
+                    <!-- The Checkstyle configuration for the Google Java Style sets the severity of
+                         violations to `warning`.
+                         However, the lowest severity level that is considered a violation is `error`
+                         by default.
+                         Therefore, we need to set the severity level to `warning` to make the build
+                         fail for Google Java Style violations.
+
+                         - https://github.com/checkstyle/checkstyle/blob/master/src/main/resources/google_checks.xml#:~:text=severity
+                         - https://maven.apache.org/plugins/maven-checkstyle-plugin/check-mojo.html#violationSeverity
+                         - https://stackoverflow.com/a/52006315/66981
+                    -->
+                    <violationSeverity>warning</violationSeverity>
+
+                    <!-- Include test sources in addition to the main sources.
+                         https://maven.apache.org/plugins/maven-checkstyle-plugin/check-mojo.html#includeTestSourceDirectory
+                    -->
+                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
+
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.4.1</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-install-plugin</artifactId>
-                <version>3.1.2</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>3.1.2</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <version>4.0.0-M15</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>3.5.0</version>
+                <executions>
+                    <execution>
+                        <!-- We bind the checkstyle plugin to the verify phase, which allows the javac compiler to flag invalid
+                             code before checkstyle. If it were bound to the earlier validate phase, it would check the code
+                             before compiling it. If the code would be invalid, the parsing errors reported by checkstyle may be
+                             different than what would be expected from the javac compiler.
+                             See: Checking for Violations as Part of the Build
+                                  at https://maven.apache.org/plugins/maven-checkstyle-plugin/usage.html#checking-for-violations-as-part-of-the-build -->
+                        <id>verify</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>3.3.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.13.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.0.0-M7</version>
+                    <configuration>
+                        <includes>
+                            <include>**/*Test.java</include>
+                        </includes>
+                        <testSourceDirectory>src/test/java</testSourceDirectory>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.4.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>3.1.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>3.1.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>4.0.0-M15</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>3.5.0</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 </project>
