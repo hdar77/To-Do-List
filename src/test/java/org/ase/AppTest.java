@@ -9,9 +9,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class AppTest {
 
     public static void main(String[] args) {
-        AppTest appTest = new AppTest();
+        App app = new App();
 
-        appTest.testApp();
     }
 
     @Test
