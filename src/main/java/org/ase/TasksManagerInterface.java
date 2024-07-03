@@ -1,4 +1,4 @@
 package org.ase;
 
-public interface TasksManagerInterface {
-}
+/** interface for tasks. */
+public interface TasksManagerInterface {}

@@ -1,4 +1,4 @@
 package org.ase;
 
-public class Tasks {
-}
+/** class for tasks. */
+public class Tasks {}

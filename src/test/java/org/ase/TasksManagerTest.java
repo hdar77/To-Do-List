@@ -1,4 +1,4 @@
 package org.ase;
 
-public class TasksManagerTest {
-}
+/** class for tasks manager test. */
+public class TasksManagerTest {}

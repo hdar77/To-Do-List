@@ -1,4 +1,4 @@
 package org.ase;
 
-public class TasksManager {
-}
+/** class for tasks manager. */
+public class TasksManager {}

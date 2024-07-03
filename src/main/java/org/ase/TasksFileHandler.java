@@ -1,4 +1,4 @@
 package org.ase;
 
-public class TasksFileHandler {
-}
+/** class for tasks file handler. */
+public class TasksFileHandler {}

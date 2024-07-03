@@ -1,4 +1,4 @@
 package org.ase;
 
-public class TasksFileHandlerTest {
-}
+/** class for tasks file handler test. */
+public class TasksFileHandlerTest {}
