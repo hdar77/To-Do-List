@@ -1,4 +1,16 @@
-package org.ase;
+public class Task {
+    private String description;
 
-/** class for tasks. */
-public class Tasks {}
+    public Task(String description) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
+    public String toString() {
+        return description;
+    }
+}
