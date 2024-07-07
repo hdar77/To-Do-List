@@ -1,31 +1,48 @@
+package org.ase;
+
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
-public class TaskFileHandler {
-    private static final String FILE_NAME = "tasks.txt";
-
-    public static void saveTasksToFile(ArrayList<Task> tasks) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME))) {
-            for (Task task : tasks) {
-                writer.write(task.getDescription());
-                writer.newLine();
-            }
-            System.out.println("Aufgaben wurden gespeichert.");
-        } catch (IOException e) {
-            System.out.println("Fehler beim Speichern der Aufgaben: " + e.getMessage());
+public class TasksFileHandler {
+    public static void saveTasksToFile(List<Tasks> tasks, String fileName) throws IOException {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
+            oos.writeObject(tasks);
         }
     }
 
-    public static ArrayList<Task> loadTasksFromFile() {
-        ArrayList<Task> tasks = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME))) {
+    public static List<Tasks> loadTasksFromFile(String fileName) throws IOException, ClassNotFoundException {
+        List<Tasks> tasks;
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
+            tasks = (List<Tasks>) ois.readObject();
+        }
+        return tasks;
+    }
+}
+
+
+public class TasksFileHandler {
+
+    public static void saveTasksToFile(List<Tasks> tasks, String filename) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+            for (Tasks task : tasks) {
+                writer.write(task.getTitle() + "," + task.getDescription());
+                writer.newLine();
+            }
+        }
+    }
+
+    public static List<Tasks> loadTasksFromFile(String filename) throws IOException {
+        List<Tasks> tasks = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                tasks.add(new Task(line));
+                String[] parts = line.split(",");
+                if (parts.length == 2) {
+                    Tasks task = new Tasks(parts[0], parts[1]);
+                    tasks.add(task);
+                }
             }
-            System.out.println("Aufgaben wurden geladen.");
-        } catch (IOException e) {
-            System.out.println("Fehler beim Laden der Aufgaben: " + e.getMessage());
         }
         return tasks;
     }
