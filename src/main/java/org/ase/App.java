@@ -1,53 +1,55 @@
+package org.ase;
+
+import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) {
-        TaskManager taskManager = new TaskManager();
+        TasksManager tasksManager = new TasksManager();
         Scanner scanner = new Scanner(System.in);
-        boolean exit = false;
 
-        while (!exit) {
-            System.out.println("\nTo-Do-Liste:");
-            System.out.println("1. Aufgabe hinzufügen");
-            System.out.println("2. Aufgabe entfernen");
-            System.out.println("3. Aufgaben anzeigen");
-            System.out.println("4. Aufgaben speichern");
-            System.out.println("5. Aufgaben laden");
-            System.out.println("6. Beenden");
-            System.out.print("Wähle eine Option: ");
+        // Beispiel: Abfragen und Hinzufügen von Aufgaben
+        boolean addMoreTasks = true;
+        while (addMoreTasks) {
+            System.out.print("Geben Sie den Titel der Aufgabe ein (oder 'exit' zum Beenden): ");
+            String title = scanner.nextLine();
 
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // Konsumiere die Zeilenumbruch-Zeichen
+            if ("exit".equalsIgnoreCase(title.trim())) {
+                addMoreTasks = false;
+                break;
+            }
 
-            switch (choice) {
-                case 1:
-                    System.out.print("Gib die Aufgabe ein: ");
-                    String taskDescription = scanner.nextLine();
-                    taskManager.addTask(new Task(taskDescription));
-                    break;
-                case 2:
-                    System.out.print("Gib den Index der zu entfernenden Aufgabe ein: ");
-                    int index = scanner.nextInt();
-                    taskManager.removeTask(index - 1);
-                    break;
-                case 3:
-                    taskManager.showTasks();
-                    break;
-                case 4:
-                    TaskFileHandler.saveTasksToFile(taskManager.getTasks());
-                    break;
-                case 5:
-                    taskManager.setTasks(TaskFileHandler.loadTasksFromFile());
-                    break;
-                case 6:
-                    exit = true;
-                    break;
-                default:
-                    System.out.println("Ungültige Wahl. Bitte versuche es erneut.");
+            System.out.print("Geben Sie eine Beschreibung für die Aufgabe ein: ");
+            String description = scanner.nextLine();
+
+            tasksManager.addTask(title, description); // Hier wird der Fehler verursacht
+
+            System.out.println("Aufgabe hinzugefügt.");
+            System.out.print("Möchten Sie eine weitere Aufgabe hinzufügen? (ja/nein): ");
+            String choice = scanner.nextLine();
+            if (!"ja".equalsIgnoreCase(choice.trim())) {
+                addMoreTasks = false;
             }
         }
 
-        scanner.close();
+        // Aufgaben anzeigen
+        System.out.println("Aktuelle Aufgaben:");
+        tasksManager.displayTasks();
+
+        // Aufgaben speichern und laden (optional, wenn TasksFileHandler verwendet wird)
+        try {
+            TasksFileHandler.saveTasksToFile(tasksManager.getTasks(), "tasks.txt");
+            List<Tasks> loadedTasks = TasksFileHandler.loadTasksFromFile("tasks.txt");
+            System.out.println("Geladene Aufgaben:");
+            for (Tasks task : loadedTasks) {
+                System.out.println(task);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            // Scanner schließen, um Ressourcen freizugeben
+            scanner.close();
+        }
     }
 }
-
