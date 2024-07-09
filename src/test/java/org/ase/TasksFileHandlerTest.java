@@ -1,4 +1,7 @@
 package org.ase;
 
-/** class for tasks file handler test. */
-public class TasksFileHandlerTest {}
+/**
+ * Testklasse für die {@link TasksFileHandler}-Klasse, die sicherstellt, dass Aufgaben korrekt aus
+ * einer Datei gelesen und in eine Datei geschrieben werden.
+ */
+class TasksFileHandlerTest {}

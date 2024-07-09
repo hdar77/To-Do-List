@@ -1,33 +1,56 @@
 package org.ase;
 
+import java.util.UUID;
+
+/** Represents a task with an ID, description, and completion status. */
 public class Tasks {
-    private String title;
-    private String description;
+  private final UUID id;
+  private String description;
+  private boolean completed;
 
-    public Tasks(String title, String description) {
-        this.title = title;
-        this.description = description;
-    }
+  /**
+   * Creates a new task.
+   *
+   * @param id the unique identifier of the task
+   * @param description the description of the task
+   * @param completed the completion status of the task
+   */
+  public Tasks(UUID id, String description, boolean completed) {
+    this.id = id;
+    this.description = description;
+    this.completed = completed;
+  }
 
-    // Getter und Setter
-    public String getTitle() {
-        return title;
-    }
+  public UUID getId() {
+    return id;
+  }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+  public String getDescription() {
+    return description;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  public boolean isCompleted() {
+    return completed;
+  }
 
-    @Override
-    public String toString() {
-        return "Tasks [title=" + title + ", description=" + description + "]";
-    }
+  public void setCompleted(boolean completed) {
+    this.completed = completed;
+  }
+
+  @Override
+  public String toString() {
+    return "Tasks{"
+        + "id="
+        + id
+        + ", description='"
+        + description
+        + '\''
+        + ", completed="
+        + completed
+        + '}';
+  }
 }

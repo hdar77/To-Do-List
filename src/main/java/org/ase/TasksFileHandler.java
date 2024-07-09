@@ -1,49 +1,66 @@
 package org.ase;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+/** Handles reading and writing tasks to a file. */
 public class TasksFileHandler {
-    public static void saveTasksToFile(List<Tasks> tasks, String fileName) throws IOException {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
-            oos.writeObject(tasks);
-        }
+  private final String filePath;
+
+  /**
+   * Creates a new file handler.
+   *
+   * @param filePath the path to the file where tasks are stored
+   */
+  public TasksFileHandler(String filePath) {
+    this.filePath = filePath;
+  }
+
+  /**
+   * Reads tasks from the file.
+   *
+   * @return the list of tasks read from the file
+   */
+  public List<Tasks> readTasksFromFile() {
+    List<Tasks> tasks = new ArrayList<>();
+    try (BufferedReader br = Files.newBufferedReader(Paths.get(filePath), StandardCharsets.UTF_8)) {
+      String line;
+      while ((line = br.readLine()) != null) {
+        Tasks task = parseTask(line);
+        tasks.add(task);
+      }
+    } catch (IOException e) {
+      e.printStackTrace(); // TODO: Replace with proper logging
     }
+    return tasks;
+  }
 
-    public static List<Tasks> loadTasksFromFile(String fileName) throws IOException, ClassNotFoundException {
-        List<Tasks> tasks;
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
-            tasks = (List<Tasks>) ois.readObject();
-        }
-        return tasks;
+  /**
+   * Writes tasks to the file.
+   *
+   * @param tasks the list of tasks to write to the file
+   */
+  public void writeTasksToFile(List<Tasks> tasks) {
+    try (BufferedWriter bw = Files.newBufferedWriter(Paths.get(filePath), StandardCharsets.UTF_8)) {
+      for (Tasks task : tasks) {
+        bw.write(
+            task.toString()); // Assume a proper toString() implementation for CSV representation
+        bw.newLine();
+      }
+    } catch (IOException e) {
+      e.printStackTrace(); // TODO: Replace with proper logging
     }
-}
+  }
 
-
-public class TasksFileHandler {
-
-    public static void saveTasksToFile(List<Tasks> tasks, String filename) throws IOException {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
-            for (Tasks task : tasks) {
-                writer.write(task.getTitle() + "," + task.getDescription());
-                writer.newLine();
-            }
-        }
-    }
-
-    public static List<Tasks> loadTasksFromFile(String filename) throws IOException {
-        List<Tasks> tasks = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                if (parts.length == 2) {
-                    Tasks task = new Tasks(parts[0], parts[1]);
-                    tasks.add(task);
-                }
-            }
-        }
-        return tasks;
-    }
+  private Tasks parseTask(String line) {
+    String[] parts = line.split(",");
+    UUID id = UUID.fromString(parts[0]);
+    String description = parts[1];
+    boolean isCompleted = Boolean.parseBoolean(parts[2]);
+    return new Tasks(id, description, isCompleted);
+  }
 }
