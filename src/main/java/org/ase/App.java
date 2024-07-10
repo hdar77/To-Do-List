@@ -6,6 +6,7 @@ import java.util.UUID;
 
 /** Main application class to interact with the user. */
 public class App {
+  /** main method to trigger tasks menu. */
   public static void main(String[] args) {
     TasksFileHandler tasksFileHandler = new TasksFileHandler("src/main/resources/tasks.txt");
     TasksManager tasksManager = new TasksManager(tasksFileHandler);

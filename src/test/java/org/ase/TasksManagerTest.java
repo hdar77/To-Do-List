@@ -1,8 +1,10 @@
 package org.ase;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,10 +13,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-/** Tests for the TasksManager class. */
-public class TasksManagerTest {
+/** Tests for the {@link TasksManager} class. */
+class TasksManagerTest {
 
+  /** define objects of task manager and file handler. */
   private TasksManager tasksManager;
+
   private TasksFileHandler tasksFileHandler;
 
   @BeforeEach
