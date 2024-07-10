@@ -92,7 +92,9 @@ public class App {
           UUID updateId = UUID.fromString(scanner.nextLine());
           logger.info("Enter new task description: ");
           String newDescription = scanner.nextLine();
-          tasksManager.updateTask(updateId, newDescription);
+          logger.info("Is the task completed? (true/false): ");
+          boolean isCompleted = Boolean.parseBoolean(scanner.nextLine());
+          tasksManager.updateTask(updateId, newDescription, isCompleted);
           logger.info("Task updated.");
           break;
         case 4:
