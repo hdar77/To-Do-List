@@ -9,10 +9,13 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /** Handles reading and writing tasks to a file. */
 public class TasksFileHandler {
   private final String filePath;
+  public Logger myLogger = Logger.getLogger(TasksFileHandler.class.getName());
 
   /**
    * Creates a new file handler.
@@ -21,6 +24,7 @@ public class TasksFileHandler {
    */
   public TasksFileHandler(String filePath) {
     this.filePath = filePath;
+    myLogger.setLevel(Level.INFO);
   }
 
   /**
@@ -37,7 +41,7 @@ public class TasksFileHandler {
         tasks.add(task);
       }
     } catch (IOException e) {
-      e.printStackTrace(); // TODO: Replace with proper logging
+      myLogger.log(Level.SEVERE, "Failed to read tasks from file: " + filePath, e);
     }
     return tasks;
   }
@@ -55,15 +59,18 @@ public class TasksFileHandler {
         bw.newLine();
       }
     } catch (IOException e) {
-      e.printStackTrace(); // TODO: Replace with proper logging
+      myLogger.log(Level.SEVERE, "Failed to write tasks to file: " + filePath, e);
     }
   }
 
   private Tasks parseTask(String line) {
     String[] parts = line.split(",");
-    UUID id = UUID.fromString(parts[0]);
-    String description = parts[1];
-    boolean isCompleted = Boolean.parseBoolean(parts[2]);
+    if (parts.length != 3) {
+      throw new IllegalArgumentException("Invalid task format: " + line);
+    }
+    UUID id = UUID.fromString(parts[0].trim()); // trim UUID string to 36 digits
+    String description = parts[1].trim(); // trim description
+    boolean isCompleted = Boolean.parseBoolean(parts[2].trim());
     return new Tasks(id, description, isCompleted);
   }
 }
