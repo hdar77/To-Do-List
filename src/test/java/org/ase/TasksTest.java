@@ -1,6 +1,5 @@
 package org.ase;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -8,10 +7,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
+// why checkstyle is annoying sometimes
+// Intellij converts the three static imports above to an .* import which causes a checkstyle
+// violation.
 
-//Intellij converts the three imports above to this .* import which causes a checkstyle violation.
-
-//import static org.junit.jupiter.api.Assertions.*;
+// import static org.junit.jupiter.api.Assertions.*;
 
 /** Tests for the {@link Tasks} class. */
 public class TasksTest {
