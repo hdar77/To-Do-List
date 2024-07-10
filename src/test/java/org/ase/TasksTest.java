@@ -41,4 +41,22 @@ public class TasksTest {
 
     assertTrue(task.isCompleted());
   }
+
+  @Test
+  public void testToStringMethod() {
+    // Create a task with known values
+    UUID id = UUID.randomUUID();
+    String description = "Sample Task";
+    boolean completed = false;
+
+    Tasks task = new Tasks(id, description, completed);
+
+    // Expected string representation
+    String expectedString =
+        "Tasks{id=" + id + ", description='" + description + "', completed=" + completed + "}";
+
+    // Verify the toString() method
+    assertEquals(
+        expectedString, task.toString(), "toString method didnt display expected string properly.");
+  }
 }
