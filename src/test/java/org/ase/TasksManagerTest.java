@@ -2,7 +2,10 @@ package org.ase;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -49,10 +52,26 @@ class TasksManagerTest {
   @Test
   public void testUpdateTask() {
     UUID taskId = tasksManager.getAllTasks().get(0).getId();
-    Tasks updatedTask = tasksManager.updateTask(taskId, "Updated Task Description");
+    Tasks updatedTask = tasksManager.updateTask(taskId, "Updated Task Description", false);
 
     assertNotNull(updatedTask);
     assertEquals("Updated Task Description", updatedTask.getDescription());
+  }
+
+  @Test
+  public void testUpdateNonExistingTask() {
+    // Generate a random UUID that does not correspond to any existing task
+    UUID nonExistingTaskId = UUID.randomUUID();
+
+    // Attempt to update a non-existing task
+    Tasks updatedTask =
+        tasksManager.updateTask(nonExistingTaskId, "Non-Existent Task Description", false);
+
+    // Verify that the updateTask method returns null for a non-existing task
+    assertNull(updatedTask, "Expected updateTask method to return null for a non-existing task.");
+
+    // Verify the writeTasksToFile method was not called
+    verify(tasksFileHandler, never()).writeTasksToFile(anyList());
   }
 
   @Test

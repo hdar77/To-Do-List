@@ -54,10 +54,11 @@ public class TasksManager {
    * @param newDescription the new description of the task
    * @return the updated task, or null if not found
    */
-  public Tasks updateTask(UUID id, String newDescription) {
+  public Tasks updateTask(UUID id, String newDescription, boolean isCompleted) {
     for (Tasks task : tasks) {
       if (task.getId().equals(id)) {
         task.setDescription(newDescription);
+        task.setCompleted(isCompleted);
         tasksFileHandler.writeTasksToFile(tasks);
         return task;
       }

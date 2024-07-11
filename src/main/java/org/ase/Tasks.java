@@ -45,7 +45,7 @@ public class Tasks {
   public String toString() {
     return "Tasks{"
         + "id="
-        + id
+        + id.toString()
         + ", description='"
         + description
         + '\''
