@@ -239,6 +239,10 @@
                     <artifactId>maven-project-info-reports-plugin</artifactId>
                     <version>3.6.1</version>
                 </plugin>
+                <plugin>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>3.7.1</version>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
@@ -258,9 +262,9 @@
                             <report>summary</report>
                             <report>team</report>
                             <!-- Would be skipped anyway since this information is not provided above. -->
-                            <!-- <report>scm</report> -->
-                            <!-- <report>issue-management</report> -->
-                            <!-- <report>ci-management</report> -->
+                            <report>scm</report>
+                            <report>issue-management</report>
+                            <report>ci-management</report>
                             <report>dependencies</report>
                             <report>plugins</report>
                             <report>dependency-convergence</report>
