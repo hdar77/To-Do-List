@@ -11,3 +11,10 @@ To focus on those, we will keep the project base, a basic to-do-list, very simpl
 - static code analysis with ErrorProne
 
 Enjoy the stay! :)
+
+Greetings,
+Hakar Dar
+
+Student of HTW Saar, 
+66117 Saarbrücken, 
+Germany
