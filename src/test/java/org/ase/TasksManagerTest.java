@@ -64,8 +64,8 @@ class TasksManagerTest {
     UUID nonExistingTaskId = UUID.randomUUID();
 
     // Attempt to update a non-existing task
-    Tasks updatedTask = tasksManager.updateTask(nonExistingTaskId, "Non-Existent Task Description",
-            false);
+    Tasks updatedTask =
+        tasksManager.updateTask(nonExistingTaskId, "Non-Existent Task Description", false);
 
     // Verify that the updateTask method returns null for a non-existing task
     assertNull(updatedTask, "Expected updateTask method to return null for a non-existing task.");

@@ -112,7 +112,12 @@ public class App {
     }
   }
 
-  private static void cleanUpTasksFile(String filePath) {
+  /**
+   * method to clean up the tasks file.
+   *
+   * @param filePath path of the file to empty
+   */
+  public static void cleanUpTasksFile(String filePath) {
     try (BufferedReader reader = new BufferedReader(new FileReader(filePath));
         BufferedWriter writer = new BufferedWriter(new FileWriter(filePath + ".tmp"))) {
       String line;
