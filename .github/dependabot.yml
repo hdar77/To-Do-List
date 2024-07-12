@@ -7,31 +7,7 @@ version: 2
 updates:
   # Maven für Java-Projekte
   - package-ecosystem: "maven"
-    directory: "/pom.xml" # Verzeichnis, in dem sich die `pom.xml` befindet
-    schedule:
-      interval: "weekly" # Überprüfen Sie wöchentlich auf Updates
-    commit-message:
-      prefix: "deps"
-
-  # npm für JavaScript/Node.js-Projekte
-  - package-ecosystem: "npm"
-    directory: "/" # Verzeichnis, in dem sich die `package.json` befindet
-    schedule:
-      interval: "weekly" # Überprüfen Sie wöchentlich auf Updates
-    commit-message:
-      prefix: "deps"
-
-  # pip für Python-Projekte
-  - package-ecosystem: "pip"
-    directory: "/" # Verzeichnis, in dem sich die `requirements.txt` befindet
-    schedule:
-      interval: "weekly" # Überprüfen Sie wöchentlich auf Updates
-    commit-message:
-      prefix: "deps"
-
-  # Bundler für Ruby-Projekte
-  - package-ecosystem: "bundler"
-    directory: "/" # Verzeichnis, in dem sich die `Gemfile` befindet
+    directory: "/" # Verzeichnis, in dem sich die `pom.xml` befindet
     schedule:
       interval: "weekly" # Überprüfen Sie wöchentlich auf Updates
     commit-message:
