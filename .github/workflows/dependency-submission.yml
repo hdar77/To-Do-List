@@ -1,0 +1,37 @@
+name: Maven Dependency Submission
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  schedule:
+    - cron: '0 2 * * 1' # weekly monday 2am
+
+permissions:
+  contents: write  
+
+jobs:
+  dependency-submission:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Build with Maven
+        run: mvn clean install -DskipTests
+
+      - name: Submit Dependency Snapshot
+        uses: advanced-security/maven-dependency-submission-action@v4.1.0
+        with:
+          directory: "."
+          token: ${{ secrets.GITHUB_TOKEN }}
