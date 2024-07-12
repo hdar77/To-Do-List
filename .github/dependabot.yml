@@ -12,3 +12,10 @@ updates:
       interval: "weekly" # Überprüfen Sie wöchentlich auf Updates
     commit-message:
       prefix: "deps"
+  # GitHub Actions überwachen
+  - package-ecosystem: "github-actions"
+    directory: "/" # Verzeichnis, in dem sich die GitHub Actions befinden
+    schedule:
+      interval: "weekly" # Überprüfen Sie wöchentlich auf Updates
+    commit-message:
+      prefix: "deps"
