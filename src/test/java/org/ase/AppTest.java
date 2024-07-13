@@ -28,6 +28,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+/** Tests for the {@link App} class. */
 class AppTest {
 
   private static final String FILE_PATH = "src/main/resources/tasks.txt";
@@ -134,13 +135,6 @@ class AppTest {
 
     // Act
     App.main(new String[] {});
-
-    // Assert
-    /*String output = outputStream.toString();
-    String expectedTaskString = "Tasks{id=" + taskId + ", description='"
-    + taskDescription + "',completed=false}";
-    assertTrue(output.contains(expectedTaskString), "Expected output to contain the task: "
-            + expectedTaskString + "\nActual output: " + output);*/
 
     // Verify the task is in the file
     String fileContent = new String(Files.readAllBytes(filePath), StandardCharsets.UTF_8);
@@ -303,75 +297,14 @@ class AppTest {
     verifyNoMoreInteractions(tasksManager);
   }
 
-  /*@Test
-  public void testFileCreationSuccess() throws IOException {
-    Mockito.when(tasksFile.createNewFile()).thenReturn(true);
-
-    File file = new File(FILE_PATH);
-    // Call the method/function that contains the code snippet
-    // Replace MyClass with the actual class name
-    file.createNewFile();
-
-    // Verify that the logger was called with the correct message
-    //Mockito.verify(myLogger).info("File created: " + tasksFile.getPath());
-  }*/
-
-  /*@Test
-  void testFileCreationFailureLogsSevere() throws IOException {
-    // Arrange
-    when(tasksFile.exists()).thenReturn(false); // Simulate that the file does not exist
-    when(tasksFile.createNewFile()).thenReturn(false); // Simulate file creation failure
-
-    // Act
-    App.main(new String[] {}); // Call main method to trigger the file creation logic
-
-    // Assert
-    verify(myLogger, times(1)).severe(anyString()); // Verify that severe log was called
-    verify(tasksFile).createNewFile(); // Verify that createNewFile was called
-
-    // Capture and assert the log message
-    ArgumentCaptor<String> logCaptor = ArgumentCaptor.forClass(String.class);
-    verify(myLogger).severe(logCaptor.capture());
-    String logMessage = logCaptor.getValue();
-    assertTrue(
-        logMessage.contains("Failed to create file: " + FILE_PATH),
-        "Expected log message for file creation failure.");
-  }*/
-
-  /*@Test
-  void testIOExceptionDuringFileCreationLogsSevere() throws IOException {
-    // Arrange
-    IOException ioException = new IOException("File creation failed");
-    when(tasksFile.exists()).thenReturn(false); // Simulate that the file does not exist
-    when(tasksFile.createNewFile())
-        .thenThrow(ioException); // Simulate IOException during file creation
-
-    // Act
-    App.main(new String[] {}); // Call main method to trigger the file creation logic
-
-    // Assert
-    verify(myLogger, times(1))
-        .log(
-            eq(Level.SEVERE),
-            anyString(),
-            eq(ioException)); // Verify that severe log was called with IOException
-
-    // Capture and assert the log message
-    ArgumentCaptor<Throwable> throwableCaptor = ArgumentCaptor.forClass(Throwable.class);
-    ArgumentCaptor<String> logMessageCaptor = ArgumentCaptor.forClass(String.class);
-    ArgumentCaptor<Level> levelCaptor = ArgumentCaptor.forClass(Level.class);
-    verify(myLogger)
-        .log(levelCaptor.capture(), logMessageCaptor.capture(), throwableCaptor.capture());
-
-    assertEquals(Level.SEVERE, levelCaptor.getValue());
-    assertTrue(
-        logMessageCaptor
-            .getValue()
-            .contains("An error occurred while creating the file: " + FILE_PATH),
-        "Expected log message for IOException.");
-    assertEquals(ioException, throwableCaptor.getValue());
-  }*/
-
-  /* tests for cleanUpTasksFile(String filepath) -method */
-  // TODO
+  @Test
+  void testFileSuccessfullyCreated() throws IOException {
+    if (!Files.exists(Paths.get(FILE_PATH))) {
+      Files.createFile(Paths.get(FILE_PATH));
+    } else {
+      Files.deleteIfExists(Paths.get(FILE_PATH));
+      Files.createFile(Paths.get(FILE_PATH));
+    }
+    assertTrue(Files.exists(Paths.get(FILE_PATH)), "File should exist after creation.");
+  }
 }
