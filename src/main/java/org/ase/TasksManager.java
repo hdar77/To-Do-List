@@ -9,7 +9,7 @@ public class TasksManager {
   private List<Tasks> tasks;
 
   /**
-   * Creates a new tasks manager.
+   * Creates a new task manager.
    *
    * @param tasksFileHandler the file handler to read/write tasks
    */

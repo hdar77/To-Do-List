@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 /** Tests for the {@link Tasks} class. */
 public class TasksTest {
 
+  /** Test task creation. */
   @Test
   public void testTaskCreation() {
     UUID id = UUID.randomUUID();
@@ -26,6 +27,7 @@ public class TasksTest {
     assertFalse(task.isCompleted());
   }
 
+  /** Test for setting task description. */
   @Test
   public void testTaskSetDescription() {
     Tasks task = new Tasks(UUID.randomUUID(), "Old Description", false);
@@ -34,6 +36,7 @@ public class TasksTest {
     assertEquals("New Description", task.getDescription());
   }
 
+  /** Test for setting task completion status. */
   @Test
   public void testTaskComplete() {
     Tasks task = new Tasks(UUID.randomUUID(), "Test Task", false);
@@ -42,6 +45,7 @@ public class TasksTest {
     assertTrue(task.isCompleted());
   }
 
+  /** Test for toString method. */
   @Test
   public void testToStringMethod() {
     // Create a task with known values
