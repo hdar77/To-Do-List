@@ -24,7 +24,7 @@ class TasksManagerTest {
 
   private TasksFileHandler tasksFileHandler;
 
-  /** setup method to initialize the tasks manager and file handler */
+  /** setup method to initialize the tasks manager and file handler. */
   @BeforeEach
   public void setUp() {
     tasksFileHandler = Mockito.mock(TasksFileHandler.class);
@@ -36,7 +36,7 @@ class TasksManagerTest {
     tasksManager = new TasksManager(tasksFileHandler);
   }
 
-  /** test for adding a task */
+  /** test for adding a task. */
   @Test
   public void testAddTask() {
     Tasks newTask = new Tasks(UUID.randomUUID(), "New Task", false);
@@ -51,7 +51,7 @@ class TasksManagerTest {
     assertEquals(2, tasks.size()); // Adjust based on actual setup
   }
 
-  /** test for updating a task */
+  /** test for updating a task. */
   @Test
   public void testUpdateTask() {
     UUID taskId = tasksManager.getAllTasks().get(0).getId();
@@ -61,7 +61,7 @@ class TasksManagerTest {
     assertEquals("Updated Task Description", updatedTask.getDescription());
   }
 
-  /** test for trying to update a non-existing task */
+  /** test for trying to update a non-existing task. */
   @Test
   public void testUpdateNonExistingTask() {
     // Generate a random UUID that does not correspond to any existing task
@@ -78,7 +78,7 @@ class TasksManagerTest {
     verify(tasksFileHandler, never()).writeTasksToFile(anyList());
   }
 
-  /** test for getting task by id */
+  /** test for getting task by id. */
   @Test
   public void testGetTaskById() {
     UUID taskId = tasksManager.getAllTasks().get(0).getId();
@@ -86,7 +86,7 @@ class TasksManagerTest {
     assertNotNull(task);
   }
 
-  /** test for task deletion */
+  /** test for task deletion. */
   @Test
   public void testDeleteTask() {
     UUID taskId = tasksManager.getAllTasks().get(0).getId();

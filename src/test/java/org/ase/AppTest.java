@@ -307,4 +307,41 @@ class AppTest {
     }
     assertTrue(Files.exists(Paths.get(FILE_PATH)), "File should exist after creation.");
   }
+
+  @Test
+  void testInvalidOptionInput() {
+    String input = "6\n5\n";
+    System.setIn(new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8)));
+
+    ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+    PrintStream originalOut = System.out;
+    PrintStream originalErr = System.err;
+
+    try {
+      System.setOut(new PrintStream(outContent));
+      System.setErr(new PrintStream(errContent));
+
+      App app = new App();
+      app.main(new String[] {});
+
+      String output = outContent.toString() + errContent;
+      assertTrue(
+          output.contains("Invalid option. Please try again."),
+          "The expected log message was not found in the output.");
+    } finally {
+      // Reset System.in, System.out, and System.err to their original states
+      System.setOut(originalOut);
+      System.setErr(originalErr);
+    }
+  }
+
+  /** getter and setter for mock logger. */
+  public Logger getMyLogger() {
+    return myLogger;
+  }
+
+  public void setMyLogger(Logger myLogger) {
+    this.myLogger = myLogger;
+  }
 }
