@@ -12,7 +12,7 @@ To focus on those, we will keep the project base, a basic to-do-list, very simpl
 
 Enjoy the stay! :)
 
-Greetings, \n
+Greetings, 
 Hakar Dar
 
 Student of HTW Saar, 
