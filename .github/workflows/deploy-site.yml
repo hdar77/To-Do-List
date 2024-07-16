@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:
+  workflow_dispatch: # allows manual trigger
 
 permissions:
   contents: read
@@ -12,8 +12,8 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  group: "pages" # prohibits parallel deployment
+  cancel-in-progress: false # running workflows won't be aborted
 
 jobs:
   build:
@@ -30,7 +30,7 @@ jobs:
           cache: maven
 
       - name: Build Maven site
-        run: mvn -B -V -e -ntp clean site
+        run: mvn -B -V -e -ntp clean site # -B --batch-mode,  -V --show-version, -e --errors, -ntp --no-transfer-progress: show no updates of dependencies
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
@@ -45,7 +45,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build
+    needs: build # waits until build success
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
