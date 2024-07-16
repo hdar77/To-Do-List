@@ -2,40 +2,40 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main" ] # trigger if push on main
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main" ] # trigger if PR on main
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
+    runs-on: ubuntu-latest # job runs on runner with image 'ubuntu-latest'
+    permissions: # permissions 
+      contents: write 
       pull-requests: write
       repository-projects: write
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v4 # checkout src code of repo to provide access to runner
 
-    - name: Set up JDK 21
+    - name: Set up JDK 21 # setup jdk with version
       uses: actions/setup-java@v4
       with:
         java-version: '21'
         distribution: 'temurin'
-        cache: maven
+        cache: maven # uses caching for maven dependenicies to minimize build time
 
     - name: Cache Maven dependencies
       uses: actions/cache@v4
       with:
         path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-        restore-keys: |
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }} # unique key based on os of runner and hash sum of pom
+        restore-keys: | # if unique key not found, restore dependencies with general key
           ${{ runner.os }}-maven-
 
     - name: Build and Test with Maven
-      run: mvn -B verify --file pom.xml
+      run: mvn -B verify --file pom.xml # run verify phase to test, -B (batch mode) prohibits interactive inputs while running
 
-    - name: Update dependency graph
+    - name: Update dependency graph # updates dependecy graph while using maven-dependency-submission
       uses: advanced-security/maven-dependency-submission-action@f97a4078d80bca790cd68e93a88da11a056ac0a3
-      if: success()
+      if: success() # only if build success
