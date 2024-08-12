@@ -31,7 +31,7 @@ jobs:
         run: mvn clean install -DskipTests # skips test to speed up build process 
 
       - name: Submit Dependency Snapshot # snapshot of dependencies state will be sent to GIthub advanced security
-        uses: advanced-security/maven-dependency-submission-action@v4.1.0
+        uses: advanced-security/maven-dependency-submission-action@v4.1.1
         with:
           directory: "."
           token: ${{ secrets.GITHUB_TOKEN }}

@@ -37,5 +37,5 @@ jobs:
       run: mvn -B verify --file pom.xml # run verify phase to test, -B (batch mode) prohibits interactive inputs while running
 
     - name: Update dependency graph # updates dependecy graph while using maven-dependency-submission
-      uses: advanced-security/maven-dependency-submission-action@f97a4078d80bca790cd68e93a88da11a056ac0a3
+      uses: advanced-security/maven-dependency-submission-action@4f64ddab9d742a4806eeb588d238e4c311a8397d
       if: success() # only if build success
